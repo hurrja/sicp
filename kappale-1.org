@@ -81,69 +81,77 @@
    uudestaan, mikä johtaa ikuiseen silmukkaan.
 
 * Tehtävä 1.7
-** Ratkaisu
-   - Pienen luvun \(x\) ja huonon neliöjuuren arvion \(y\) neliön
-     \(y^2\) erotus voi olla pienempi kuin 0,001. Esimerkiksi jos \(x
-     = 0,0001\) ja \(y = 0,03,\) niin \(\sqrt{x} =\sqrt{0,0001} =
-     0,01,\) mutta \(\Abs{y^2 - x} = \Abs{0,03^2 - 0,001^2} \approx
-     0,0008 < 0,001.\) Näin ohjelma voi \ldquo{}tyytyä\rdquo kehnoon
-     vastaukseen. Alla ohjelman antama tulos tässä tilanteessa.
-   - Jos luku \(x\) on suuri, niin ohjelma ei tietokoneen äärellisen
-     laskentatarkkuuden rajoissa välttämättä koskaan pääse riittävän
-     lähelle luvun neliöjuurta vaan jää ikuiseen silmukkaan. Näin käy
-     minun tietokoneessani esimerkiksi silloin, kun \(x = 10^{15}.\)
+** Alkuperäisen ohjelmakoodin toiminta pienillä ja suurilla arvoilla
+*** Vihje
+    Kokeile eri arvoja ja pyri selittämään havaintosi
+*** Ratkaisu
+    - Pienen luvun \(x\) ja huonon neliöjuuren arvion \(y\) neliön
+      \(y^2\) erotus voi olla pienempi kuin 0,001. Esimerkiksi jos \(x
+      = 0,0001\) ja \(y = 0,03,\) niin \(\sqrt{x} =\sqrt{0,0001} =
+      0,01,\) mutta \(\Abs{y^2 - x} = \Abs{0,03^2 - 0,001^2} \approx
+      0,0008 < 0,001.\) Näin ohjelma voi \ldquo{}tyytyä\rdquo kehnoon
+      vastaukseen. Alla ohjelman antama tulos tässä tilanteessa.
+    - Jos luku \(x\) on suuri, niin ohjelma ei tietokoneen äärellisen
+      laskentatarkkuuden rajoissa välttämättä koskaan pääse riittävän
+      lähelle luvun neliöjuurta vaan jää ikuiseen silmukkaan. Näin käy
+      minun tietokoneessani esimerkiksi silloin, kun \(x = 10^{15}.\)
    
-   #+BEGIN_SRC scheme :exports both
-     (define (sqrt-iter guess x)
-       (if (good-enough? guess x)
-           guess
-           (sqrt-iter (improve guess x) x)))
+    #+BEGIN_SRC scheme :exports both
+      (define (sqrt-iter guess x)
+        (if (good-enough? guess x)
+            guess
+            (sqrt-iter (improve guess x) x)))
 
-     (define (improve guess x)
-       (average guess (/ x guess)))
+      (define (improve guess x)
+        (average guess (/ x guess)))
 
-     (define (average x y) 
-       (/ (+ x y) 2))
+      (define (average x y) 
+        (/ (+ x y) 2))
 
-     (define (good-enough? guess x)
-       (< (abs (- (square guess) x)) 0.001))
+      (define (good-enough? guess x)
+        (< (abs (- (square guess) x)) 0.001))
 
-     (define (square x) (* x x))
+      (define (square x) (* x x))
 
-     (define (sqrt x)
-       (sqrt-iter 1.0 x))
+      (define (sqrt x)
+        (sqrt-iter 1.0 x))
 
-     (sqrt 0.0001)
-   #+END_SRC
+      (sqrt 0.0001)
+    #+END_SRC
 
-   #+RESULTS:
-   : 0.03230844833048122
+    #+RESULTS:
+    : 0.03230844833048122
+** Parannettu ohjelmakoodi
+*** Vihje
+    Uudessa ohjelmassa täytyy \ldquo{}kuljettaa mukana\rdquo edellistä
+    arvausta, jolle täytyy myös alussa antaa jokin arvo (samaan tapaan
+    kuin arvaukselle annetaan arvo 1,0).
+*** Ratkaisu
+    Alla esitetyssä ohjelmassa tyydytään arvaukseen, kun se muuttuu
+    alle promillen edellisestä arvosta. Proseduuri ~list~ kytkee kaksi
+    arvoa toisiinsa listaksi.
+    #+BEGIN_SRC scheme :exports both
+      (define (sqrt-iter guess prev-guess x)
+        (if (good-enough? guess prev-guess)
+            guess
+            (sqrt-iter (improve guess x) guess x)))
 
-   Alla esitetyssä ohjelmassa tyydytään arvaukseen, kun se muuttuu
-   alle promillen edellisestä arvosta. Proseduuri ~list~ kytkee kaksi
-   arvoa toisiinsa listaksi.
-   #+BEGIN_SRC scheme :exports both
-     (define (sqrt-iter guess prev-guess x)
-       (if (good-enough? guess prev-guess)
-           guess
-           (sqrt-iter (improve guess x) guess x)))
+      (define (improve guess x)
+        (average guess (/ x guess)))
 
-     (define (improve guess x)
-       (average guess (/ x guess)))
+      (define (average x y) 
+        (/ (+ x y) 2))
 
-     (define (average x y) 
-       (/ (+ x y) 2))
+      (define (good-enough? guess prev-guess)
+        (< (abs (/ (- guess prev-guess) guess)) 0.001))
 
-     (define (good-enough? guess prev-guess)
-       (< (abs (/ (- guess prev-guess) guess)) 0.001))
+      (define (square x) (* x x))
 
-     (define (square x) (* x x))
+      (define (sqrt x)
+        (sqrt-iter 1.0 0 x))
 
-     (define (sqrt x)
-       (sqrt-iter 1.0 0 x))
+      (list (sqrt 0.0001) (sqrt 1000000000000000))
+    #+END_SRC
 
-     (list (sqrt 0.0001) (sqrt 1000000000000000))
-   #+END_SRC
-
-   #+RESULTS:
-   | 0.010000000025490743 | 31622779.27999515 |
+    #+RESULTS:
+    | 0.010000000025490743 | 31622779.27999515 |
