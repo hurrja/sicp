@@ -59,3 +59,12 @@
   paluuarvo on \(a - b.\). Arvo on siis 
   \[ a + \Abs{b} = \begin{cases} a + b, & \text{kun \(b > 0\)}\\ a -
   b, & \text{muuten.} \end{cases} \]
+
+* Tehtävä 1.5
+  - Jos lauseke evaluoidaan applikatiivisessa järjestyksessä, niin
+    argumentti ~(p)~ evaluoidaan ennen proseduuria ~test~. Lausekkeen
+    ~(p)~ evaluointi johtaa uudelleen lausekkeen ~(p)~ evaluointiin
+    proseduurin ~p~ määritelmän takia. Ohjelma jää siis ikuiseen silmukkaan.
+  - Jos lauseke evaluoidaan normaalijärjestyksessä, proseduuri ~test~
+    palauttaa arvon 0, koska sen ensimmäisen argumentin arvo
+    on 0 ja koska toista argumenttia ei tarvitse evaluoida.
