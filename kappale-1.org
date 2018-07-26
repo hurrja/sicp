@@ -1,6 +1,8 @@
 * Ohje
-  1. lue kappale 1.1
+  1. lue kappaleet 1.1.1--1.1.6
   2. tee tehtävät 1.1--1.5
+  3. lue kappale 1.1.7
+  4. tee tehtävät 1.6 ja 1.7
 * Tehtävä 1.1
   Evaluoi lausekkeet Scheme-tulkissa tarkistaaksesi vastauksesi.
 * Tehtävä 1.2
@@ -55,12 +57,14 @@
   : #t
   
 * Tehtävä 1.4
+** Ratkaisu
   Jos \(b > 0,\) niin proseduuri palauttaa arvon \(a + b.\) Muuten
   paluuarvo on \(a - b.\). Arvo on siis 
   \[ a + \Abs{b} = \begin{cases} a + b, & \text{kun \(b > 0\)}\\ a -
   b, & \text{muuten.} \end{cases} \]
 
 * Tehtävä 1.5
+** Ratkaisu
   - Jos lauseke evaluoidaan applikatiivisessa järjestyksessä, niin
     argumentti ~(p)~ evaluoidaan ennen proseduuria ~test~. Lausekkeen
     ~(p)~ evaluointi johtaa uudelleen lausekkeen ~(p)~ evaluointiin
@@ -68,3 +72,49 @@
   - Jos lauseke evaluoidaan normaalijärjestyksessä, proseduuri ~test~
     palauttaa arvon 0, koska sen ensimmäisen argumentin arvo
     on 0 ja koska toista argumenttia ei tarvitse evaluoida.
+
+* Tehtävä 1.6
+** Ratkaisu
+   Koska tulkki evaluoi lausekkeen applikatiivisessa järjestyksessä,
+   proseduurin ~sqrt-iter~ sisällä ~new-if~ evaluoi aina molemmat
+   argumentit. Niinpä ~sqrt-iter~ kutsuu itseään yhä uudestaan ja
+   uudestaan, mikä johtaa ikuiseen silmukkaan.
+
+* Tehtävä 1.7
+** Ratkaisu
+   - Pienen luvun \(x\) ja huonon neliöjuuren arvion \(y\) neliön
+     \(y^2\) erotus voi olla pienempi kuin 0,001. Esimerkiksi jos \(x
+     = 0,0001\) ja \(y = 0,03,\) niin \(\sqrt{x} =\sqrt{0,0001} =
+     0,01,\) mutta \(\Abs{y^2 - x} = \Abs{0,03^2 - 0,001^2} \approx
+     0,0008 < 0,001.\) Näin ohjelma voi \ldquo{}tyytyä\rdquo kehnoon
+     vastaukseen. Alla ohjelman antama tulos tässä tilanteessa.
+   - Jos luku \(x\) on suuri, niin ohjelma ei tietokoneen äärellisen
+     laskentatarkkuuden rajoissa välttämättä koskaan pääse riittävän
+     lähelle luvun neliöjuurta vaan jää ikuiseen silmukkaan. Näin käy
+     minun tietokoneessani esimerkiksi silloin, kun \(x = 10^{15}.\)
+   
+   #+BEGIN_SRC scheme
+     (define (sqrt-iter guess x)
+       (if (good-enough? guess x)
+           guess
+           (sqrt-iter (improve guess x) x)))
+
+     (define (improve guess x)
+       (average guess (/ x guess)))
+
+     (define (average x y) 
+       (/ (+ x y) 2))
+
+     (define (good-enough? guess x)
+       (< (abs (- (square guess) x)) 0.001))
+
+     (define (square x) (* x x))
+
+     (define (sqrt x)
+       (sqrt-iter 1.0 x))
+
+     (sqrt 0.0001)
+   #+END_SRC
+
+   #+RESULTS:
+   : 0.03230844833048122
