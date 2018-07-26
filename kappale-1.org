@@ -3,6 +3,7 @@
   2. tee tehtävät 1.1--1.5
   3. lue kappale 1.1.7
   4. tee tehtävät 1.6 ja 1.7
+  5. lue kappale 1.1.8
 * Tehtävä 1.1
   Evaluoi lausekkeet Scheme-tulkissa tarkistaaksesi vastauksesi.
 * Tehtävä 1.2
