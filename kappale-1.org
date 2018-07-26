@@ -93,7 +93,7 @@
      lähelle luvun neliöjuurta vaan jää ikuiseen silmukkaan. Näin käy
      minun tietokoneessani esimerkiksi silloin, kun \(x = 10^{15}.\)
    
-   #+BEGIN_SRC scheme
+   #+BEGIN_SRC scheme :exports both
      (define (sqrt-iter guess x)
        (if (good-enough? guess x)
            guess
