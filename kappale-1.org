@@ -1,3 +1,8 @@
+* Ohje
+  1. lue kappale 1.1
+  2. tee tehtävät 1.1--1.5
+* Tehtävä 1.1
+  Evaluoi lausekkeet Scheme-tulkissa tarkistaaksesi vastauksesi.
 * Tehtävä 1.2
 ** Ratkaisu
   #+BEGIN_SRC scheme :exports both
@@ -14,19 +19,37 @@
   : -37/150
 
 * Tehtävä 1.3
+** Vihjeitä
+   1. Ratkaisussa on useita kohtia, joissa lasketaan kahden luvun
+      neliöiden summa. Tätä varten voi olla hyvä muodostaa erillinen
+      proseduuri.
+   2. Miten voit merkitä matemaattisesti sitä, että \(x\) on pienin
+      luvuista \(x,\), \(y\) ja \(z\)? Huomaa, että kolmen luvun
+      joukossa voi olla myös kaksi \ldquo{}pienintä\rdquo lukua.
 ** Ratkaisu
   #+BEGIN_SRC scheme :exports both
     (define (square x) (* x x))
     (define (sum-squares x y) (+ (square x) (square y)))
 
+    ; yksi ratkaisu
     (define (sum-sq-two-largest x y z)
+      (cond ((and (<= x y) (<= x z)) (sum-squares y z)) ; onko x pienin?
+            ((and (<= y x) (<= y z)) (sum-squares x z)) ; onko y pienin?      
+            ((and (<= z x) (<= z y)) (sum-squares x y)))) ; onko z pienin?
+
+    ; toinen, hiukan lyhyempi ratkaisu
+    (define (sum-sq-two-largest-short x y z)
       (cond ((and (<= x y) (<= x z)) (sum-squares y z)) ; onko x pienin?
             ((<= y z) (sum-squares x z)) ; x ei pienin, onko y?
             (else (sum-squares x y)))) ; muuten z on pienin
 
-    (sum-sq-two-largest 2 1 0)
+    ; näistä kaikista pitäisi tulla sama vastaus
+    (= (sum-sq-two-largest 2 1 -10)
+       (sum-sq-two-largest -10 2 1)
+       (sum-sq-two-largest-short 2 -10 -1))
 
   #+END_SRC
 
   #+RESULTS:
-  : 5
+  : #t
+  
