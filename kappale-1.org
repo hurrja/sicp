@@ -1,5 +1,5 @@
 * Tehtävä 1.2
-
+** Ratkaisu
   #+BEGIN_SRC scheme :exports both
     (/
      (+ 5
@@ -14,15 +14,15 @@
   : -37/150
 
 * Tehtävä 1.3
-
-  #+BEGIN_SRC scheme
+** Ratkaisu
+  #+BEGIN_SRC scheme :exports both
     (define (square x) (* x x))
     (define (sum-squares x y) (+ (square x) (square y)))
 
     (define (sum-sq-two-largest x y z)
-      (cond ((and (<= x y) (<= x z)) (sum-squares y z))
-            ((<= y z) (sum-squares x z))
-            (else (sum-squares x y))))
+      (cond ((and (<= x y) (<= x z)) (sum-squares y z)) ; onko x pienin?
+            ((<= y z) (sum-squares x z)) ; x ei pienin, onko y?
+            (else (sum-squares x y)))) ; muuten z on pienin
 
     (sum-sq-two-largest 2 1 0)
 
