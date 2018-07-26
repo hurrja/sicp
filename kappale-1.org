@@ -118,3 +118,32 @@
 
    #+RESULTS:
    : 0.03230844833048122
+
+   Alla esitetyssä ohjelmassa tyydytään arvaukseen, kun se muuttuu
+   alle promillen edellisestä arvosta. Proseduuri ~list~ kytkee kaksi
+   arvoa toisiinsa listaksi.
+   #+BEGIN_SRC scheme :exports both
+     (define (sqrt-iter guess prev-guess x)
+       (if (good-enough? guess prev-guess)
+           guess
+           (sqrt-iter (improve guess x) guess x)))
+
+     (define (improve guess x)
+       (average guess (/ x guess)))
+
+     (define (average x y) 
+       (/ (+ x y) 2))
+
+     (define (good-enough? guess prev-guess)
+       (< (abs (/ (- guess prev-guess) guess)) 0.001))
+
+     (define (square x) (* x x))
+
+     (define (sqrt x)
+       (sqrt-iter 1.0 0 x))
+
+     (list (sqrt 0.0001) (sqrt 1000000000000000))
+   #+END_SRC
+
+   #+RESULTS:
+   | 0.010000000025490743 | 31622779.27999515 |
