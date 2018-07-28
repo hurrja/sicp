@@ -7,10 +7,10 @@
      (require sicp)
      #+END_SRC
 
-
+  Tämän kappaleen suositellut luettavat osat ja tehtävät ovat
   1. kappale 1.2.1
   2. tehtävä 1.9
-  3. \(\ast\) tehtävä 1.10
+  3. \star tehtävä 1.10
 
 * Tehtävä 1.9
 ** Ratkaisu
