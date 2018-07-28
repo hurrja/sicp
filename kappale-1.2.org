@@ -56,7 +56,7 @@
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
-     #+BEGIN_SRC scheme :exports both
+     #+BEGIN_SRC scheme :exports both :cache yes
        (require sicp)
        (define (+ a b)
          (if (= a 0) 
@@ -66,10 +66,11 @@
        (+ 4 5)
      #+END_SRC
 
-     #+RESULTS:
+     #+RESULTS[1c3c088676acfbb56ce4fef47cac3993e04829db]:
      : 9
+
      Prosessi on seuraava:
-     #+BEGIN_SRC scheme
+     #+BEGIN_SRC scheme :exports code
        (+ 4 5)
        (inc (+ 3 5))
        (inc (inc (+ 2 5)))
@@ -83,7 +84,7 @@
      #+END_SRC
 
    - Toisesta tulee iteratiivinen prosessi.
-     #+BEGIN_SRC scheme :exports both
+     #+BEGIN_SRC scheme :exports both :cache yes
        (require sicp)
        (define (+ a b)
          (if (= a 0) 
@@ -93,11 +94,11 @@
        (+ 4 5)
      #+END_SRC
 
-     #+RESULTS:
+     #+RESULTS[5e8433b7b306bf320460ef8abe88af1dc627ca2b]:
      : 9
 
      Prosessi on seuraava:
-     #+BEGIN_SRC scheme
+     #+BEGIN_SRC scheme :exports code
        (+ 4 5)
        (+ 3 6)
        (+ 2 7)
@@ -115,7 +116,7 @@
    - Osoita ensin sijoitusmallilla sekä funktioiden \(g\) ja \(h\)
      avulla, että \(h(n) = 2^{h(n-1)}.\)
 ** Ratkaisu
-   #+BEGIN_SRC scheme :exports both
+   #+BEGIN_SRC scheme :exports both :cache yes
      (define (A x y)
        (cond ((= y 0) 0)
              ((= x 0) (* 2 y))
@@ -130,8 +131,9 @@
      (list (A 1 10) (A 2 4) (A 3 3))
    #+END_SRC
 
-   #+RESULTS:
+   #+RESULTS[a4735632561469282b6639f82f9a62f94e58fb80]:
    | 1024 | 65536 | 65536 |
+
    Sijoitusmallilla saadaan suoraan, että \[ f(n) = 2n. \]
    Samoin sijoitusmallilla saadaan, että 
    \begin{align*}
@@ -160,7 +162,7 @@
      iteratiivisesta Fibonaccin ratkaisusta.
 ** Ratkaisu
    - rekursiivinen prosessi
-     #+BEGIN_SRC scheme :exports both
+     #+BEGIN_SRC scheme :exports both :cache yes
        (define (f n)
          (if (< n 3)
              n
@@ -171,25 +173,24 @@
        (f 5)
      #+END_SRC
 
-     #+RESULTS:
+     #+RESULTS[3af9a5ee9a44a5b4141e37b0b7567bb3af22a853]:
      : 25
 
    - iteratiivinen prosessi
-     #+BEGIN_SRC scheme :exports both
+     #+BEGIN_SRC scheme :exports both :cache yes
        (define (f n)
          (define (f-iter a b c count)
-           (cond ((= count 0) c)
-                 ((= count 1) b)
-                 ((= count 2) a)
-                 (else (f-iter
-                        (+ a (* b 2) (* c 3))
-                        a
-                        b
-                        (- count 1)))))
+           (if (= count 0) c
+               (f-iter
+                (+ a (* b 2) (* c 3))
+                a
+                b
+                (- count 1))))
          (f-iter 2 1 0 n))
 
        (f 5)
      #+END_SRC
 
-     #+RESULTS:
+     #+RESULTS[d8d094e10f17981fd58a96ffd8fbcf94ffd6918d]:
      : 25
+
