@@ -52,6 +52,7 @@
        \end{align*}
        Ja niin edelleen. (Tarkemman todistuksen voi tehdä induktiolla.)
      - Sana /denomination/ tarkoittaa rahan arvoa.
+  5. tehtävä 1.11
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -150,3 +151,45 @@
    &= 2^{h(n-1)}\\
    &= 2^{2^{h(n-2)}} = \cdots = \underbrace{2^{2^{{\cdot}^{{\cdot}^{{\cdot}^2}}}}}_{\text{$n$ kpl}}.
    \end{align*}
+* Tehtävä 1.11
+** Vinkkejä
+   - Huomaa, että \(f\) on määritelty kaikille luonnolliselle
+     luvuille, myös luvulle 0, koska \[ f(3) = f(2) + 2f(1) + 3f(0).\]
+   - Rekursiivisen prosessin ratkaisu on suoraviivainen.
+   - Iteratiivisen prosessin ratkaisuun kannattaa hakea ideaa
+     iteratiivisesta Fibonaccin ratkaisusta.
+** Ratkaisu
+   - rekursiivinen prosessi
+     #+BEGIN_SRC scheme :exports both
+       (define (f n)
+         (if (< n 3)
+             n
+             (+ (f (- n 1))
+                (* 2 (f (- n 2)))
+                (* 3 (f (- n 3))))))
+
+       (f 5)
+     #+END_SRC
+
+     #+RESULTS:
+     : 25
+
+   - iteratiivinen prosessi
+     #+BEGIN_SRC scheme :exports both
+       (define (f n)
+         (define (f-iter a b c count)
+           (cond ((= count 0) c)
+                 ((= count 1) b)
+                 ((= count 2) a)
+                 (else (f-iter
+                        (+ a (* b 2) (* c 3))
+                        a
+                        b
+                        (- count 1)))))
+         (f-iter 2 1 0 n))
+
+       (f 5)
+     #+END_SRC
+
+     #+RESULTS:
+     : 25
