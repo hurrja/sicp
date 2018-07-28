@@ -8,8 +8,9 @@
      #+END_SRC
 
 
-  1. lue 1.2.1
-  2. 
+  1. kappale 1.2.1
+  2. tehtävä 1.9
+  3. \(\ast\) tehtävä 1.10
 
 * Tehtävä 1.9
 ** Ratkaisu
@@ -68,10 +69,10 @@
    - Kysytyt funktion \(A\) arvot voi laskea suoraan tulkilla.
    - Funktion \(f(n)\) lausekkeen voi määrittää suoraan
      sijoitusmallilla yhdellä askeleella.
-   - Funktion \(g(n)\) arvoa laskettaessa sijoitusmallilla voidaan
-     toistuvasti käyttää funktion \(f\) lauseketta.
-   - Vastaavasti funktion \(h(n)\) arvoa laskettaessa sijoitusmallilla
-     voidaan toistuvasti käyttää funktion \(g\) lauseketta.
+   - Osoita ensin sijoitusmallilla sekä funktioiden \(f\) ja \(g\)
+     avulla, että \(g(n) = 2\cdot g(n-1).\) Mitä on \(g(1)\)?
+   - Osoita ensin sijoitusmallilla sekä funktioiden \(g\) ja \(h\)
+     avulla, että \(h(n) = 2^{h(n-1)}.\)
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both
      (define (A x y)
@@ -106,5 +107,6 @@
    &= A (1, A(2, n-1))\\
    &= g (A(2, n-1))\\
    &= 2^{A(2, n-1)}\\
-   &= 2^{2^{A(2,n-2)}} = \cdots = \underbrace{2^{2^{{\cdot}^{{\cdot}^{{\cdot}^2}}}}}_{\text{$n$ kpl}}.
+   &= 2^{h(n-1)}\\
+   &= 2^{2^{h(n-2)}} = \cdots = \underbrace{2^{2^{{\cdot}^{{\cdot}^{{\cdot}^2}}}}}_{\text{$n$ kpl}}.
    \end{align*}
