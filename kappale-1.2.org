@@ -60,7 +60,19 @@
      - Sana /denomination/ tarkoittaa rahan arvoa.
   5. tehtävä 1.11
   6. tehtävä 1.12
-  7. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
+  7. kappale 1.2.3
+     - \(\Theta(f(n))\) kuvaa suuruusluokkaa. Kaikki ensimmäisen
+       asteen polynomifunktiot ovat \(\Theta(n),\) esimerkiksi \(n +
+       5\) sekä \(9(n-2044)-773.\) Vastaavasti kaikki toisen asteen
+       polynomifunktiot ovat \(\Theta(n^2).\)
+     - Rekursiivisessa prosessissa tilatarpeen näkee puun syvyydestä
+       ja laskuaskelien tarpeen puun solmujen lukumäärästä.
+     - Tätä ei tekstissä sanota, mutta jos jokin proseduuri vaatii
+       \(\Theta(n)\) askelta, ja proseduuri toistetaan \(\Theta(n)\)
+       kertaa, niin kaiken kaikkiaan tarvittavien askelien määrä on
+       \(\Theta(n^2),\) koska kahden ensimmäisten asteen polynomin
+       tulo on toisen asteen polynomi
+  8. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
