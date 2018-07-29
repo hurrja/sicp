@@ -53,6 +53,7 @@
        Ja niin edelleen. (Tarkemman todistuksen voi tehdä induktiolla.)
      - Sana /denomination/ tarkoittaa rahan arvoa.
   5. tehtävä 1.11
+  6. tehtävä 1.12
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -194,3 +195,17 @@
      #+RESULTS[d8d094e10f17981fd58a96ffd8fbcf94ffd6918d]:
      : 25
 
+* Tehtävä 1.12
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (P r c)
+       (cond ((or (<= c 0) (> c r)) 0)
+             ((or (= 1 c) (= r c)) 1)
+             (else (+ (P (- r 1) c) 
+                      (P (- r 1) (- c 1))))))
+
+     (list (P 4 1) (P 4 2) (P 4 3) (P 4 4))
+   #+END_SRC
+
+   #+RESULTS[0e0b83e73cd47e575161b58fc17703bdd893a249]:
+   | 1 | 3 | 3 | 1 |
