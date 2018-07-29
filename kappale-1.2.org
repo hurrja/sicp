@@ -1,3 +1,9 @@
+#+LATEX_CLASS_OPTIONS: [a4paper, 12pt]
+#+LATEX_HEADER: \usepackage{forest}
+#+LATEX_HEADER: \usepackage{pdflscape}
+#+LATEX_HEADER: \usepackage[left=2.5cm,top=3cm,right=2.5cm,bottom=3cm,nohead,foot=2cm]{geometry}
+
+
 * Ohje
   Mikäli käytät racket-tulkkia, tässä kappaleessa käytetyt proseduurit
   ~inc~ ja ~dec~ täytyy ottaa käyttöön seuraavasti:
@@ -54,6 +60,7 @@
      - Sana /denomination/ tarkoittaa rahan arvoa.
   5. tehtävä 1.11
   6. tehtävä 1.12
+  7. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -223,3 +230,103 @@
 
    #+RESULTS[aa7bf4b8da2633409ec81b749e945d03835e3d36]:
    | 1 | 3 | 3 | 1 |
+
+* Tehtävä 1.14
+** Vinkkejä
+   - Puun piirtäminen on työlästä mutta erittäin hyödyllistä toista,
+     paljon vaikeampaa osaa varten.
+   - Alla \(n\) on rahasumma (ei erilaisten kolikoiden määrä).
+   - Päättele piirtämästäsi puusta mikä on funktio \(f\) lausekkeessa
+     \(\Theta(f(n))\) kun käytössä on vain yksi kolikkotyyppi (sentin
+     kolikko).
+   - Selitä miksi puuhun tulee noin \(\frac{n}{2}\) uutta haaraa,
+     jossa käytössä on vain sentin kolikko, kun käyttöön otetaan
+     toinen, viiden sentin kolikko. Päättele tästä funktion \(f\)
+     lauseke.
+   - Kuinka monta uutta \ldquo{}osaa\rdquo puuhun tulee, kun kolmas,
+     kymmenen sentin kolikko otetaan käyttöön. Mikä on tällöin \(f\)?
+   - Päättele tästä \(f,\) kun käytössä on viisi kolikkoa.
+** Ratkaisu
+   # apukoodi, jolla generoidaan puun kuvaus latexin forest-pakettia
+   # varten
+   #+BEGIN_SRC scheme :exports none :cache yes
+    (require racket/format)
+
+    (define (make-binary-tree node left right)
+      (list node left right))
+    (define (make-leaf node)
+      (make-binary-tree node '() '()))
+    (define (node btree)
+      (car btree))
+    (define (left btree)
+      (cadr btree))
+    (define (right btree)
+      (caddr btree))
+
+    (define (count-change amount)
+      (cc amount 5))
+
+    (define (cc amount kinds-of-coins)
+                 (let ((children
+                        (cond ((= amount 0) (cons '() (make-leaf 1)))
+                              ((or (< amount 0) 
+                                   (= kinds-of-coins 0)) 
+                               (cons '() (make-leaf 0)))
+                              (else 
+                               (cons (cc amount (- kinds-of-coins 1))
+                                     (cc (- amount (first-denomination 
+                                                    kinds-of-coins))
+                                         kinds-of-coins))))))
+                   (make-binary-tree `(cc ,amount ,kinds-of-coins) 
+                                     (car children)
+                                     (cdr children))))
+
+
+    (define (first-denomination kinds-of-coins)
+      (cond ((= kinds-of-coins 1) 1)
+            ((= kinds-of-coins 2) 5)
+            ((= kinds-of-coins 3) 10)
+            ((= kinds-of-coins 4) 25)
+            ((= kinds-of-coins 5) 50)))
+
+    (define (binary-tree-to-forest bt)
+      (if (null? bt)
+          ""
+          (string-append
+           "["
+           (~a (node bt))
+           (binary-tree-to-forest (left bt))
+           (binary-tree-to-forest (right bt))
+           "]")))
+            
+    (binary-tree-to-forest (count-change 11))
+   #+END_SRC
+
+   #+RESULTS[ce5047f7c33c68ad5c05b93aade6ac950b9397e5]:
+   : [(cc 11 5)[(cc 11 4)[(cc 11 3)[(cc 11 2)[(cc 11 1)[(cc 11 0)[0]][(cc 10 1)[(cc 10 0)[0]][(cc 9 1)[(cc 9 0)[0]][(cc 8 1)[(cc 8 0)[0]][(cc 7 1)[(cc 7 0)[0]][(cc 6 1)[(cc 6 0)[0]][(cc 5 1)[(cc 5 0)[0]][(cc 4 1)[(cc 4 0)[0]][(cc 3 1)[(cc 3 0)[0]][(cc 2 1)[(cc 2 0)[0]][(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]]]]]]]]]]]][(cc 6 2)[(cc 6 1)[(cc 6 0)[0]][(cc 5 1)[(cc 5 0)[0]][(cc 4 1)[(cc 4 0)[0]][(cc 3 1)[(cc 3 0)[0]][(cc 2 1)[(cc 2 0)[0]][(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]]]]]]][(cc 1 2)[(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]][(cc -4 2)[0]]]]][(cc 1 3)[(cc 1 2)[(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]][(cc -4 2)[0]]][(cc -9 3)[0]]]][(cc -14 4)[0]]][(cc -39 5)[0]]]
+
+  \begin{forest}
+  for tree={font=\tiny, s sep-=5pt, draw, rounded corners},
+  [(cc 11 5)[(cc 11 4)[(cc 11 3)[(cc 11 2)[(cc 11 1)[(cc 11 0)[0]][(cc 10 1)[(cc 10 0)[0]][(cc 9 1)[(cc 9 0)[0]][(cc 8 1)[(cc 8 0)[0]][(cc 7 1)[(cc 7 0)[0]][(cc 6 1)[(cc 6 0)[0]][(cc 5 1)[(cc 5 0)[0]][(cc 4 1)[(cc 4 0)[0]][(cc 3 1)[(cc 3 0)[0]][(cc 2 1)[(cc 2 0)[0]][(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]]]]]]]]]]]][(cc 6 2)[(cc 6 1)[(cc 6 0)[0]][(cc 5 1)[(cc 5 0)[0]][(cc 4 1)[(cc 4 0)[0]][(cc 3 1)[(cc 3 0)[0]][(cc 2 1)[(cc 2 0)[0]][(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]]]]]]][(cc 1 2)[(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]][(cc -4 2)[0]]]]][(cc 1 3)[(cc 1 2)[(cc 1 1)[(cc 1 0)[0]][(cc 0 1)[1]]][(cc -4 2)[0]]][(cc -9 3)[0]]]][(cc -14 4)[0]]][(cc -39 5)[0]]]
+  \end{forest}
+
+  - Ohjelman tarvitsema tila on puun korkeus eli \(\Theta(n).\)
+  - Kun käytössä on vain sentin kolikko, ohjelman tarvitsemien
+    laskenta-askelien määrä on \(\Theta(n).\) Esimerkiksi kuvan
+    haarassa ~(c 11 1)~ on \(3\cdot 11 + 2\) solmua. Yleisesti ottaen
+    solmujen määrä olisi \(3n + 2 = \Theta(n).\)
+  - Kun käyttöön otetaan myös viiden sentin kolikko, puuhun tulee noin
+    \(\frac{n}{5} = \Theta(n)\) uutta haaraa, joissa käytössä on vain
+    sentin kolikko. Kuvassa nämä ovat ~(cc 6 1)~ sekä ~(cc 1
+    1)~. Kussakin näissä on suuruusluokkaa \(n\) solmua. Tarkalleen
+    ottaen haarassa ~(cc 6 1)~ on \(3\cdot(11-5)+2\) solmua, eli
+    yleisesti vastaavassa haarassa olisi \(3(n-5)+2 = \Theta(n)\)
+    solmua. Vastaavasti haarassa ~(cc 1 1)~ on \(3\cdot(11-2\cdot
+    5)+2\) solmua, eli yleisesti vastaavassa haarassa olisi
+    \(3(n-2\cdot 5)+2 = \Theta(n)\) solmua. Kussakin \(\Theta(n)\)
+    haarassa on siis \(\Theta(n)\) solmua, joten kaiken kaikkiaan
+    solmuja on \(\Theta(n^2)\).
+  - Vastaavasti kun kymmenen sentin kolikko otetaan käyttöön, haaroja
+    joissa käytössä on korkeintaan viiden sentin kolikko syntyy noin
+    \(\frac{n}{10} = \Theta(n).\) Niinpä solmuja on \(\Theta(n^3).\)
+  - Viidellä kolikolla solmuja on \(\Theta(n^5).\)
