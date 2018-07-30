@@ -71,8 +71,30 @@
        \(\Theta(n)\) askelta, ja proseduuri toistetaan \(\Theta(n)\)
        kertaa, niin kaiken kaikkiaan tarvittavien askelien määrä on
        \(\Theta(n^2),\) koska kahden ensimmäisten asteen polynomin
-       tulo on toisen asteen polynomi
+       tulo on toisen asteen polynomi.
   8. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
+  9. kappale 1.2.4
+     - 
+       #+BEGIN_QUOTE
+       Thus, the number of multiplications required for an exponent of
+       \(n\) grows about as fast as the logarithm of \(n\) to the
+       base 2. The process has \(\Theta(\log⁡ n)\) growth.
+       #+END_QUOTE
+       Ensinnäkin tässä puhutaan proseduurin vaatimista askelista eli
+       aikavaativuudesta, ei tilasta. Toiseksi, logaritminen
+       aikavaativuus voidaan perustella tarkemmin seuraavasti. Olkoon
+       laskettu arvo \(b^n,\) ja oletetaan, että eksponentti \(n\)
+       puolittuu kullakin askeleella. Siinä vaiheessa kun eksponentti
+       on 1, ongelma (arvon laskeminen) on ratkaistu. Jos \(k\) on
+       tarvittavien askelten määrä, niin eksponentti 1 saavutetaan kun
+       \begin{align*}
+       \left(\frac{1}{2}\right)^k n &= 1\\
+       n &= 2^k\\
+       k &= \log_2 n.
+       \end{align*}
+       Askelten määrä riippuu siis logaritmisesti eksponentin suuruudesta.
+  10. tehtävä 1.17
+  11. \star tehtävä 1.16
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -342,3 +364,33 @@
     joissa käytössä on korkeintaan viiden sentin kolikko syntyy noin
     \(\frac{n}{10} = \Theta(n).\) Niinpä solmuja on \(\Theta(n^3).\)
   - Viidellä kolikolla solmuja on \(\Theta(n^5).\)
+* Tehtävä 1.16
+** Vinkkejä
+   - Sievennä lauseke \(a\cdot b^2\cdot \left(b^2)^3.\)
+   - Sievennä lauseke \(ab^2\cdot \left(b^2\right)^{\frac{n}{2} - 1}.\)
+** Ratkaisu
+   - Jos \(n\) on parillinen, niin \[ ab^n =
+     \underbrace{ab^2}_{\text{uusi \(a\)}}\cdot
+     \left(\underbrace{b^2}_{\text{uusi
+     \(b\)}}\right)^{\overbrace{\frac{n}{2} - 1}^{\text{uusi \(n\)}}. \]
+   - Jos \(n\) on pariton, niin \[ ab^n = ab\cdot b^{n-1}. \]
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (square x) (* x x))
+     (define (even? x) (= 0 (remainder x 2)))
+
+     (define (fast-exp b n)
+       (define (fast-exp-iter b n a)
+         (cond ((= n 0) a)
+               ((even? n)
+                (fast-exp-iter
+                 (square b)
+                 (- (/ n 2) 1)
+                 (* a (square b))))
+               (else (fast-exp-iter b (- n 1) (* a b)))))
+       (fast-exp-iter b n 1))
+
+     (list (fast-exp 2 5) (fast-exp -3 4) (fast-exp -10 7))
+   #+END_SRC
+
+   #+RESULTS[31d391d1ad70a32993361d53a04c91caf2bcb5f9]:
+   | 32 | 81 | -10000000 |
