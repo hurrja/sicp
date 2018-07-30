@@ -366,8 +366,9 @@
   - Viidellä kolikolla solmuja on \(\Theta(n^5).\)
 * Tehtävä 1.16
 ** Vinkkejä
-   - Sievennä lauseke \(a\cdot b^2\cdot \left(b^2)^3.\)
-   - Sievennä lauseke \(ab^2\cdot \left(b^2\right)^{\frac{n}{2} - 1}.\)
+   - Sievennä lauseke \(ab^2\cdot \left(b^2)^3.\)
+   - Ilmaise vastaavassa muodossa \(ab^{12}.\)
+   - Ilmaise vastaavassa muodossa \(ab^n.\)
 ** Ratkaisu
    - Jos \(n\) on parillinen, niin \[ ab^n =
      \underbrace{ab^2}_{\text{uusi \(a\)}}\cdot
