@@ -1,6 +1,5 @@
 #+LATEX_CLASS_OPTIONS: [a4paper, 12pt]
 #+LATEX_HEADER: \usepackage{forest}
-#+LATEX_HEADER: \usepackage{pdflscape}
 #+LATEX_HEADER: \usepackage[left=2.5cm,top=3cm,right=2.5cm,bottom=3cm,nohead,foot=2cm]{geometry}
 
 
