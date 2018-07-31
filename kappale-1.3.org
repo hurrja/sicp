@@ -34,3 +34,20 @@
 
    #+RESULTS[dea476e74987cbabd46c1d33314026fb2254458f]:
    | 120 | 3.1573396892175642 |
+* Tehtävä 1.30
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (sum term a next b)
+       (define (iter a result)
+         (if (> a b)
+             result
+             (iter (next a) (+ result (term a)))))
+       (iter a 0))
+
+     (define (id x) x)
+     (define (inc x) (+ x 1))
+     (sum id 1 inc 10)
+   #+END_SRC
+
+   #+RESULTS[db8680979c4e10fba0e57c05806e32cfc194eba9]:
+   : 55
