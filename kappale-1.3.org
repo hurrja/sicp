@@ -51,3 +51,23 @@
 
    #+RESULTS[db8680979c4e10fba0e57c05806e32cfc194eba9]:
    : 55
+* Tehtävä 1.31 osa 2
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (product term a next b)
+       (define (iter a result)
+         (if (> a b)
+             result
+             (iter (next a) (* result (term a)))))
+       (iter a 1))
+
+     (define (identity x) x)
+     (define (inc x) (+ x 1))
+     (define (factorial n)
+       (product identity 1 inc n))
+
+     (factorial 5)
+   #+END_SRC
+
+   #+RESULTS[dea476e74987cbabd46c1d33314026fb2254458f]:
+   | 120 | 3.1573396892175642 |
