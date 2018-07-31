@@ -1,0 +1,36 @@
+* Ohje
+  - kappale 1.3.1 siihen asti, kun tekstissä aletaan käsitellä
+    integraaleja \(\int\)
+  - tehtävä 1.31 osa 1
+  - tehtävä 1.30
+  - tehtävä 1.31 osa 2
+* Tehtävä 1.31 osa 1
+** Vinkkejä
+   - Summassa arvo on 0, kun \(a > b,\) tulossa vastaava arvo on...?
+   - \[ \pi = 4\cdot\frac{2\cdot 4}{3\cdot 3} \cdot \frac{4\cdot
+     6}{5\cdot 5} \cdot \frac{6\cdot 8}{7\cdot 7} \cdots \]
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (product term a next b)
+       (if (> a b)
+           1
+           (* (term a)
+              (product term (next a) next b))))
+
+     (define (identity x) x)
+     (define (inc x) (+ x 1))
+     (define (factorial n)
+       (product identity 1 inc n))
+
+     (define (pi-prod n)
+       (define (pi-term n)
+         (/ (* (- n 1.0) (+ n 1.0))
+            (* n n)))
+       (define (pi-next n) (+ n 2.0))
+       (* 4 (product pi-term 3 pi-next n)))
+
+     (list (factorial 5) (pi-prod 100))
+   #+END_SRC
+
+   #+RESULTS[dea476e74987cbabd46c1d33314026fb2254458f]:
+   | 120 | 3.1573396892175642 |
