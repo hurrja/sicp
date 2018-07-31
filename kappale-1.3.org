@@ -4,6 +4,7 @@
   - tehtävä 1.31 osa 1
   - tehtävä 1.30
   - tehtävä 1.31 osa 2
+  - tehtävä 1.32
 * Tehtävä 1.31 osa 1
 ** Vinkkejä
    - Summassa arvo on 0, kun \(a > b,\) tulossa vastaava arvo on...?
@@ -69,5 +70,49 @@
      (factorial 5)
    #+END_SRC
 
-   #+RESULTS[dea476e74987cbabd46c1d33314026fb2254458f]:
-   | 120 | 3.1573396892175642 |
+   #+RESULTS[04ac406a1f2a26d1367389862d66ab51e513d73a]:
+   : 120
+* Tehtävä 1.32
+** Ratkaisu
+*** Ratkaisu, joka tuottaa rekursiivisen prosessin
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (accumulate combiner null-value term a next b)
+        (if (> a b)
+            null-value
+            (combiner (term a)
+                      (accumulate combiner null-value term (next a) next b))))
+
+      (define (sum term a next b)
+        (accumulate + 0 term a next b))
+
+      (define (product term a next b)
+        (accumulate * 1 term a next b))
+
+      (define (id x) x)
+      (define (inc x) (+ x 1))
+
+      (list (sum id 1 inc 10) (product id 1 inc 5))
+    #+END_SRC
+
+    #+RESULTS[3c6c7e2211684b09547c16b782f9ef98fcf92e56]:
+    | 55 | 120 |
+*** Ratkaisu, joka tuottaa iteratiivisen prosessin
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (accumulate combiner null-value term a next b)
+        (define (acc-iter a result)
+          (if (> a b)
+              result
+              (acc-iter (next a) (combiner (term a) result))))
+        (acc-iter a null-value))
+
+      (define (sum term a next b)
+        (accumulate + 0 term a next b))
+
+      (define (product term a next b)
+        (accumulate * 1 term a next b))
+
+      (define (id x) x)
+      (define (inc x) (+ x 1))
+
+      (list (sum id 1 inc 10) (product id 1 inc 5))
+    #+END_SRC
