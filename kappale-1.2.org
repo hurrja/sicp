@@ -395,3 +395,18 @@
 
    #+RESULTS[31d391d1ad70a32993361d53a04c91caf2bcb5f9]:
    | 32 | 81 | -10000000 |
+* Tehtävä 1.17
+  #+BEGIN_SRC scheme :exports both :cache yes
+    (define (double x) (* x 2))
+    (define (halve x) (/ x 2))
+
+    (define (* a b)
+      (cond ((= 0 b) 0)
+            ((even? b) (double (* a (halve b))))
+            (else (+ a (* a (- b 1))))))
+
+    (list (* 7 9) (* 12 12) (* 1 199) (* 0 5) (* 22 0))
+  #+END_SRC
+
+  #+RESULTS[288085cdaf0de1c3e0d703be2080fefbec6f9dff]:
+  | 63 | 144 | 199 | 0 | 0 |
