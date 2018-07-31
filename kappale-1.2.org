@@ -9,7 +9,7 @@
   ~inc~ ja ~dec~ täytyy ottaa käyttöön seuraavasti:
   1. asenna paketti ~sicp~
   2. kirjoita kunkin ratkaisun ensimmäiseksi riviksi
-     #+BEGIN_SRC scheme
+     #+BEGIN_SRC scheme :exports code
      (require sicp)
      #+END_SRC
 
@@ -93,8 +93,10 @@
        k &= \log_2 n.
        \end{align*}
        Askelten määrä riippuu siis logaritmisesti eksponentin suuruudesta.
-  10. tehtävä 1.17
+  10. tehtävä 1.17 (määrittele itse käytettävät apuproseduurit
+      ~double~ ja ~halve~)
   11. \star tehtävä 1.16
+  12. \star tehtävä 1.18
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -366,47 +368,109 @@
   - Viidellä kolikolla solmuja on \(\Theta(n^5).\)
 * Tehtävä 1.16
 ** Vinkkejä
-   - Sievennä lauseke \(ab^2\cdot \left(b^2)^3.\)
-   - Ilmaise vastaavassa muodossa \(ab^{12}.\)
-   - Ilmaise vastaavassa muodossa \(ab^n.\)
+   - Tehtävänanto on hyvin väljä. Ongelma voidaan ratkaista ainakin
+     kahdella eri tavalla. Alla vinkkejä (mielestäni) helpompaan
+     tapaan ilmaista \(ab^n\) toisessa muodossa \(a_\ast
+     b_\ast^{n_\ast}\) siten, että seuraavalla askeleella eksponentti
+     aina vähenee ja parillisen eksponentin tapauksessa
+     puolittuu. Toisessa tapauksessa \(b\) pysyy muuttumattomana
+     seuraavassa askeleessa, toisessa \(a\) pysyy muuttumattomana.
+   - Pariton eksponentti:
+     - Sievennä \(ab\cdot b^8.\)
+     - Ilmaise vastaavassa muodossa \(ab^n,\) kun \(n\) on pariton.
+   - Parillinen eksponentti
+     - Sievennä \(a\cdot \left(b^5\right)^2.\)
+     - Ilmaise vastaavassa muodossa \(ab^n,\) kun \(n\) on parillinen.
+
+** Ratkaisuja
+*** Mielestäni helpompi ratkaisu
+    - Jos \(n\) on parillinen, niin \[ ab^n = a\cdot
+      \left(\underbrace{b^2}_{\text{uusi
+      \(b\)}}\right)^{\overbrace{\frac{n}{2}}^{\text{uusi \(n\)}}. \]
+    - Jos \(n\) on pariton, niin \[ ab^n = \underbrace{ab}_{\text{uusi
+      \(a\)}}\cdot b^\overbrace{{n-1}}^{\text{uusi \(n\)}}. \]
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (square x) (* x x))
+      (define (even? x) (= 0 (remainder x 2)))
+
+      (define (fast-exp b n)
+        (define (fast-exp-iter b n a)
+          (cond ((= n 0) a)
+                ((even? n) (fast-exp-iter (square b) (/ n 2) a))
+                (else (fast-exp-iter b (- n 1) (* a b)))))
+        (fast-exp-iter b n 1))
+
+      (list (fast-exp 2 5) (fast-exp -3 4) (fast-exp -10 7))
+    #+END_SRC
+
+    #+RESULTS[ea1dde529c520ddc15d3f92528ce35f471ea5d6c]:
+    | 32 | 81 | -10000000 |
+
+*** Hieman toisenlainen
+    - Jos \(n\) on parillinen, niin \[ ab^n =
+      \underbrace{ab^2}_{\text{uusi \(a\)}}\cdot
+      \left(\underbrace{b^2}_{\text{uusi
+      \(b\)}}\right)^{\overbrace{\frac{n}{2} - 1}^{\text{uusi \(n\)}}. \]
+    - Jos \(n\) on pariton, niin \[ ab^n = ab\cdot b^{n-1}. \]
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (square x) (* x x))
+      (define (even? x) (= 0 (remainder x 2)))
+
+      (define (fast-exp b n)
+        (define (fast-exp-iter b n a)
+          (cond ((= n 0) a)
+                ((even? n)
+                 (fast-exp-iter
+                  (square b)
+                  (- (/ n 2) 1)
+                  (* a (square b))))
+                (else (fast-exp-iter b (- n 1) (* a b)))))
+        (fast-exp-iter b n 1))
+
+      (list (fast-exp 2 5) (fast-exp -3 4) (fast-exp -10 7))
+    #+END_SRC
+
+    #+RESULTS[31d391d1ad70a32993361d53a04c91caf2bcb5f9]:
+    | 32 | 81 | -10000000 |
+* Tehtävä 1.17
 ** Ratkaisu
-   - Jos \(n\) on parillinen, niin \[ ab^n =
-     \underbrace{ab^2}_{\text{uusi \(a\)}}\cdot
-     \left(\underbrace{b^2}_{\text{uusi
-     \(b\)}}\right)^{\overbrace{\frac{n}{2} - 1}^{\text{uusi \(n\)}}. \]
-   - Jos \(n\) on pariton, niin \[ ab^n = ab\cdot b^{n-1}. \]
    #+BEGIN_SRC scheme :exports both :cache yes
-     (define (square x) (* x x))
-     (define (even? x) (= 0 (remainder x 2)))
+     (define (double x) (+ x x))
+     (define (halve x) (/ x 2))
 
-     (define (fast-exp b n)
-       (define (fast-exp-iter b n a)
-         (cond ((= n 0) a)
-               ((even? n)
-                (fast-exp-iter
-                 (square b)
-                 (- (/ n 2) 1)
-                 (* a (square b))))
-               (else (fast-exp-iter b (- n 1) (* a b)))))
-       (fast-exp-iter b n 1))
+     (define (* a b)
+       (cond ((= 0 b) 0)
+             ((even? b) (double (* a (halve b))))
+             (else (+ a (* a (- b 1))))))
 
-     (list (fast-exp 2 5) (fast-exp -3 4) (fast-exp -10 7))
+     (list (* 7 9) (* 12 12) (* 1 199) (* 0 5) (* 22 0))
    #+END_SRC
 
-   #+RESULTS[31d391d1ad70a32993361d53a04c91caf2bcb5f9]:
-   | 32 | 81 | -10000000 |
-* Tehtävä 1.17
-  #+BEGIN_SRC scheme :exports both :cache yes
-    (define (double x) (* x 2))
-    (define (halve x) (/ x 2))
+   #+RESULTS[7b18095abca50c513ddab10274e553bcb5a2257b]:
+   | 63 | 144 | 199 | 0 | 0 |
 
-    (define (* a b)
-      (cond ((= 0 b) 0)
-            ((even? b) (double (* a (halve b))))
-            (else (+ a (* a (- b 1))))))
+* Tehtävä 1.18
+** Ratkaisu
+   Invariantiksi käy \(c + ab,\) missä alussa \(c = 0\) ja lopussa
+   \(c\) on laskettava tulo. Kun \(b\) on parillinen, \[ c + ab = c +
+   \underbrace{2a}_{\text{uusi \(a\)}}\cdot
+   \underbrace{\frac{b}{2}}_{\text{uusi \(b\)}. \] Kun \(b\) on
+   pariton, \[ c + ab = \underbrace{c + a}_{\text{uusi \(c\)}} +
+   a\cdot\underbrace{(b-1)}_{\text{uusi \(b\)}}. \]
+  
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (double x) (+ x x))
+     (define (halve x) (/ x 2))
 
-    (list (* 7 9) (* 12 12) (* 1 199) (* 0 5) (* 22 0))
-  #+END_SRC
+     (define (* a b)
+       (define (fast-mult a b c)
+         (cond ((= b 0) c)
+               ((even? b) (fast-mult (double a) (halve b) c))
+               (else (fast-mult a (- b 1) (+ c a)))))
+       (fast-mult a b 0))
 
-  #+RESULTS[288085cdaf0de1c3e0d703be2080fefbec6f9dff]:
-  | 63 | 144 | 199 | 0 | 0 |
+     (list (* 7 9) (* 12 12) (* 1 199) (* 0 5) (* 22 0))
+   #+END_SRC
+
+   #+RESULTS[8fe9bf7000277bd4570e14988d525a978daa0cbd]:
+   | 63 | 144 | 199 | 0 | 0 |
