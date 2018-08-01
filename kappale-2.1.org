@@ -1,0 +1,28 @@
+* Ohje
+  - kappaleen 2.1 alku sekä 2.1.1
+    - /rational number/: murtoluku
+    - /numerator/: osoittaja
+    - /denominator/: nimittäjä
+  - tehtävä 2.1
+* Tehtävä 2.1
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes :results output
+     (define (numer x) (car x))
+     (define (denom x) (cdr x))
+     (define (print-rat x)
+       (newline)
+       (display (numer x))
+       (display "/")
+       (display (denom x)))
+
+     (define (make-rat n d)
+       (let ((g (gcd n d)))
+         (cons (/ n g) 
+               (/ d g))))
+
+     (print-rat (make-rat 2 4))
+   #+END_SRC
+
+   #+RESULTS[f84b3a7ad6abfd8441a657afa708db1c2a9652c5]:
+   : 
+   : 1/2
