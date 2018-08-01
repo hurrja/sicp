@@ -15,6 +15,7 @@
   - kappale 1.3.4 otsikkoon \ldquo{}Newton's method asti\rdquo
   - tehtävä 1.41
   - tehtävä 1.42
+  - tehtävä 1.43
 * Tehtävä 1.31 osa 1
 ** Vinkkejä
    - Summassa arvo on 0, kun \(a > b,\) tulossa vastaava arvo on...?
@@ -250,4 +251,21 @@
      ((compose square inc) 6)
    #+END_SRC
 
-   #+RESULTS[2dbab055651a4c2feb76223bd093e94d3cdd71bc]:
+   #+RESULTS[e3e232adffce85b5216288554891cbfd7a3a6273]:
+   : 49
+* Tehtävä 1.43
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (square x) (* x x))
+
+     (define (compose f g)
+       (lambda (x)
+         (f (g x))))
+
+     (define (repeated f n)
+       (if (= 1 n)
+           f
+           (compose f (repeated f (- n 1)))))
+
+     ((repeated square 2) 5)
+   #+END_SRC
