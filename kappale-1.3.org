@@ -170,9 +170,10 @@
 * Tehtävä 1.37
 ** Vinkkejä
    Itselleni ratkaisu oli helpointa ajatella siten, että
-   - rekursiivinen prosessi lasketaan ylhäältä alaspäin (ensin \(\frac{N_1}{D_1}\))
-   - iteratiivinen prosessi lasketaan alhaalta ylöspäin (ensimmäinen
-     tulos on \(\frac{N_k}{D_k}.\)
+   - rekursiivinen prosessi muodostetaan ylhäältä alaspäin
+     \(\frac{N_1}{D_1 + \cdots}\)
+   - iteratiivinen prosessi muodostetaan alhaalta ylöspäin
+     (ensimmäinen tulos on \(\frac{N_k}{D_k}.\)
 ** Ratkaisu
 *** Rekursiivinen prosessi
     #+BEGIN_SRC scheme :exports both :cache yes
