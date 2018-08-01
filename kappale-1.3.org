@@ -12,6 +12,8 @@
       f(x)\) ratkaisu.
   - tehtävä 1.35
   - tehtävä 1.37
+  - kappale 1.3.4 otsikkoon \ldquo{}Newton's method asti\rdquo
+  - tehtävä 1.41
 * Tehtävä 1.31 osa 1
 ** Vinkkejä
    - Summassa arvo on 0, kun \(a > b,\) tulossa vastaava arvo on...?
@@ -205,4 +207,32 @@
 
     #+RESULTS[1a1f63a58a55d08f18008f7000ec2bc41817a807]:
     : 1.6180339985218037
-    
+* Tehtävä 1.41
+** Ratkaisu
+   Merkitään lausekkeessa ~((double (double double)) inc)~ proseduuria
+   ~double~ lyhyesti merkillä ~d~ ja proseduuria ~inc~ merkillä
+   ~i~. Lisäksi ~dd~ tarkoittaa proseduurin ~d~ kahta sisäkkäistä
+   kutsua.
+   #+BEGIN_SRC scheme :exports code
+   ((d (d d)) i)
+   ((d (lambda (x) (d (d x)))) i)
+   ((d dd) i)
+   (dddd i)
+   (ddd ii)
+   (dd iiii)
+   (d iiiiiiii)
+   (iiiiiiiiiiiiiiii)
+   #+END_SRC
+   Lauseke kasvattaa siis argumentin arvoa luvulla 16.
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (double f)
+       (lambda (x)
+         (f (f x))))
+
+     (define (inc x) (+ x 1))
+
+     (list ((double inc) 1) (((double (double double)) inc) 5))
+   #+END_SRC
+
+   #+RESULTS[c2a5171d732198c7f74ec411ba4697cd6908c1af]:
+   | 3 | 21 |
