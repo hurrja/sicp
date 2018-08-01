@@ -5,6 +5,11 @@
     - /denominator/: nimittäjä
   - tehtävä 2.1
 * Tehtävä 2.1
+** Vinkkejä
+   - Osamäärän \(\frac{n}{d}\) merkin voi päätellä monella tavalla,
+     esimerkiksi tulosta \(nd.\)
+   - Schemessä on valmiiksi itseisarvoproseduuri ~abs~ sekä suurimman
+     yhteisen tekijän antava proseduuri ~gcd~.
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes :results output
      (define (numer x) (car x))
@@ -16,13 +21,22 @@
        (display (denom x)))
 
      (define (make-rat n d)
-       (let ((g (gcd n d)))
-         (cons (/ n g) 
-               (/ d g))))
+       (let ((sign (if (>= (* n d) 0) 1 -1))
+             (n (abs n))
+             (d (abs d)))
+         (let ((g (gcd n d)))
+           (cons (* sign (/ n g))
+                 (/ d g)))))
 
      (print-rat (make-rat 2 4))
+     (print-rat (make-rat 2 -4))
+     (print-rat (make-rat -2 4))
+     (print-rat (make-rat -2 -4))
    #+END_SRC
 
-   #+RESULTS[f84b3a7ad6abfd8441a657afa708db1c2a9652c5]:
+   #+RESULTS[7faabcc5648a74a31b482f084e25eed3a1d5802b]:
    : 
+   : 1/2
+   : -1/2
+   : -1/2
    : 1/2
