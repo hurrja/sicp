@@ -159,7 +159,7 @@
        (+ 0 9)
        9
      #+END_SRC
-* Lisätehtävä: ~gdc~
+* Lisätehtävä: ~gcd~
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
      (define (gcd a b)
