@@ -269,3 +269,6 @@
 
      ((repeated square 2) 5)
    #+END_SRC
+
+   #+RESULTS[ac8134664154643816183f49ff44f23b3e3b8bd4]:
+   : 625
