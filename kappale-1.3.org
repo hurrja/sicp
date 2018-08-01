@@ -11,6 +11,7 @@
     - Funktion \(f\) /kiintopiste/ (fixed point) on siis yhtälön \(x =
       f(x)\) ratkaisu.
   - tehtävä 1.35
+  - tehtävä 1.37
 * Tehtävä 1.31 osa 1
 ** Vinkkejä
    - Summassa arvo on 0, kun \(a > b,\) tulossa vastaava arvo on...?
@@ -139,7 +140,7 @@
    Tästä seuraa virhe, koska ~2~ ei ole proseduuri.
 * Tehtävä 1.35
 ** Ratkaisu
-   Yhtälön kiintopisteet ovat
+   Muunnoksen kiintopisteet ovat
    \begin{align*}
    x &= 1 + \frac{1}{x}\\
    x^2 &= x + 1\\
@@ -166,3 +167,41 @@
 
    #+RESULTS[e362d1599e5c052a4eb251bad3c8cf5fbb82f946]:
    : 1.6180327868852458
+* Tehtävä 1.37
+** Vinkkejä
+   Itselleni ratkaisu oli helpointa ajatella siten, että
+   - rekursiivinen prosessi lasketaan ylhäältä alaspäin (ensin \(\frac{N_1}{D_1}\))
+   - iteratiivinen prosessi lasketaan alhaalta ylöspäin (ensimmäinen
+     tulos on \(\frac{N_k}{D_k}.\)
+** Ratkaisu
+*** Rekursiivinen prosessi
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (cont-frac n d k)
+        (define (cf m)
+          (/ (n m)
+             (+ (d m) (if (= m k) 0 (cf (+ m 1))))))
+        (cf 1))
+
+      (let ((const-one (lambda (i) 1.0)))
+        (/ 1.0 (cont-frac const-one const-one 20)))
+
+    #+END_SRC
+
+    #+RESULTS[988fb74c12338037a14db37c744cc35d929eed96]:
+    : 1.6180339985218037
+*** Iteratiivinen prosessi
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (cont-frac n d k)
+        (define (cf-iter k result)
+          (if (= k 0) result
+              (cf-iter (- k 1) (/ (n k) (+ (d k) result)))))
+        (cf-iter k 0))
+
+      (let ((const-one (lambda (i) 1.0)))
+        (/ 1.0 (cont-frac const-one const-one 20)))
+
+    #+END_SRC
+
+    #+RESULTS[1a1f63a58a55d08f18008f7000ec2bc41817a807]:
+    : 1.6180339985218037
+    
