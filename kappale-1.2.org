@@ -15,8 +15,18 @@
   Tämän kappaleen suositellut luettavat osat ja tehtävät ovat
   1. kappale 1.2.1
   2. tehtävä 1.9
-  3. \star tehtävä 1.10
-  4. kappale 1.2.2
+  3. lisätehtävä
+     - Kirjoita proseduuri ~gcd~ (/greatest common divisor/: suurin
+       yhteinen tekijä) käyttämällä Eukleideen algoritmia:
+       - Kokonais lukujen \(a \geq 0\) ja 0 suurin yhteinen tekijä on
+         \(a.\)
+       - Kun \(a \geq b,\) lukujen \(a\) ja \(b\) suurin yhteinen
+         tekijä on sama kuin lukujen \(b\) ja \(r\) suurin yhteinen
+         tekijä, missä \(r\) on jakolaskun \(a : b\) jakojäännös.
+       Schemessä lauseke ~(remainder a b)~ antaa jakojäännöksen
+       jakolaskussa \(a : b.\)
+  4. \star tehtävä 1.10
+  5. kappale 1.2.2
      - 
         #+BEGIN_QUOTE
         On the other hand, the space required grows only linearly with
@@ -57,9 +67,9 @@
        \end{align*}
        Ja niin edelleen. (Tarkemman todistuksen voi tehdä induktiolla.)
      - Sana /denomination/ tarkoittaa rahan arvoa.
-  5. tehtävä 1.11
-  6. tehtävä 1.12
-  7. kappale 1.2.3
+  6. tehtävä 1.11
+  7. tehtävä 1.12
+  8. kappale 1.2.3
      - \(\Theta(f(n))\) kuvaa suuruusluokkaa. Kaikki ensimmäisen
        asteen polynomifunktiot ovat \(\Theta(n),\) esimerkiksi \(n +
        5\) sekä \(9(n-2044)-773.\) Vastaavasti kaikki toisen asteen
@@ -71,31 +81,31 @@
        kertaa, niin kaiken kaikkiaan tarvittavien askelien määrä on
        \(\Theta(n^2),\) koska kahden ensimmäisten asteen polynomin
        tulo on toisen asteen polynomi.
-  8. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
-  9. kappale 1.2.4
-     - 
-       #+BEGIN_QUOTE
-       Thus, the number of multiplications required for an exponent of
-       \(n\) grows about as fast as the logarithm of \(n\) to the
-       base 2. The process has \(\Theta(\log⁡ n)\) growth.
-       #+END_QUOTE
-       Ensinnäkin tässä puhutaan proseduurin vaatimista askelista eli
-       aikavaativuudesta, ei tilasta. Toiseksi, logaritminen
-       aikavaativuus voidaan perustella tarkemmin seuraavasti. Olkoon
-       laskettu arvo \(b^n,\) ja oletetaan, että eksponentti \(n\)
-       puolittuu kullakin askeleella. Siinä vaiheessa kun eksponentti
-       on 1, ongelma (arvon laskeminen) on ratkaistu. Jos \(k\) on
-       tarvittavien askelten määrä, niin eksponentti 1 saavutetaan kun
-       \begin{align*}
-       \left(\frac{1}{2}\right)^k n &= 1\\
-       n &= 2^k\\
-       k &= \log_2 n.
-       \end{align*}
-       Askelten määrä riippuu siis logaritmisesti eksponentin suuruudesta.
-  10. tehtävä 1.17 (määrittele itse käytettävät apuproseduurit
+  9. \star \star tehtävä 1.14 (kannattaa katsoa suoraan vinkkejä)
+  10. kappale 1.2.4
+      - 
+        #+BEGIN_QUOTE
+        Thus, the number of multiplications required for an exponent of
+        \(n\) grows about as fast as the logarithm of \(n\) to the
+        base 2. The process has \(\Theta(\log⁡ n)\) growth.
+        #+END_QUOTE
+        Ensinnäkin tässä puhutaan proseduurin vaatimista askelista eli
+        aikavaativuudesta, ei tilasta. Toiseksi, logaritminen
+        aikavaativuus voidaan perustella tarkemmin seuraavasti. Olkoon
+        laskettu arvo \(b^n,\) ja oletetaan, että eksponentti \(n\)
+        puolittuu kullakin askeleella. Siinä vaiheessa kun eksponentti
+        on 1, ongelma (arvon laskeminen) on ratkaistu. Jos \(k\) on
+        tarvittavien askelten määrä, niin eksponentti 1 saavutetaan kun
+        \begin{align*}
+        \left(\frac{1}{2}\right)^k n &= 1\\
+        n &= 2^k\\
+        k &= \log_2 n.
+        \end{align*}
+        Askelten määrä riippuu siis logaritmisesti eksponentin suuruudesta.
+  11. tehtävä 1.17 (määrittele itse käytettävät apuproseduurit
       ~double~ ja ~halve~)
-  11. \star tehtävä 1.16
-  12. \star tehtävä 1.18
+  12. \star tehtävä 1.16
+  13. \star tehtävä 1.18
 * Tehtävä 1.9
 ** Ratkaisu
    - Ensimmäinen version tuottama prosessi on rekursiivinen.
@@ -149,6 +159,20 @@
        (+ 0 9)
        9
      #+END_SRC
+* Lisätehtävä: ~gdc~
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (gcd a b)
+       (if (= b 0)
+           a
+           (gcd b (remainder a b))))
+
+     (gcd (* 5 7 13) (* 11 13 19))
+   #+END_SRC
+
+   #+RESULTS[f3d6acd1a5c26dd575e7298989ea25ad063229ce]:
+   : 13
+
 * Tehtävä 1.10
 ** Vihjeitä
    - Kysytyt funktion \(A\) arvot voi laskea suoraan tulkilla.
