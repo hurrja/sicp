@@ -9,6 +9,9 @@
     - /(line) segment/: jana
   - kappale 2.1.3
   - tehtävä 2.4
+  - \star tehtävä 2.5
+    - Schemen proseduuri ~expt~ laskee potenssien arvoja. Esimeriksi
+      lausekkeen \(2^5\) arvon voi laskea lausekkeella ~(expt 2 5)~.
 * Tehtävä 2.1
 ** Vinkkejä
    - Osamäärän \(\frac{n}{d}\) merkin voi päätellä monella tavalla,
@@ -87,6 +90,7 @@
    : 
    : (4.5,4.0)
 * Tehtävä 2.4
+** Ratkaisu
   #+BEGIN_SRC scheme :exports code
     (car (cons x y))
     (car (lambda (m) (m x y)))
@@ -99,3 +103,27 @@
     (define (cdr z) 
       (z (lambda (p q) q)))
   #+END_SRC
+* Tehtävä 2.5
+** Ratkaisu
+   Tämä ratkaisu ei käytä logaritmia.
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (cons a b) (* (expt 2 a) (expt 3 b)))
+     (define (find-power n x)
+       (if (= 1 x)
+           0
+           (+ 1 (find-power n (/ x n)))))
+     (define (remove-factors n x)
+       (if (= 0 (remainder x n))
+           (remove-factors n (/ x n))
+           x))
+     (define (car x)
+       (find-power 2 (remove-factors 3 x)))
+     (define (cdr x)
+       (find-power 3 (remove-factors 2 x)))
+
+     (let ((p (cons 4 5)))
+       (list (car p) (cdr p)))
+   #+END_SRC
+
+   #+RESULTS[e1f37988d526cb2c2536d1d3bc3df6d2da0aee29]:
+   | 4 | 5 |
