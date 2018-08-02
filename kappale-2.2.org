@@ -1,18 +1,21 @@
 * Ohje
   - tähän huomautus, että ~nil~ löytyy paketista ~sicp~
   - kappaleen 2.2 alku sekä kappale 2.2.1
-  - tehtävä 2.17
-    - Tehtävässä ei kerrota, mitä proseduurin pitäisi tehdä, jos sille
-      annetaan tyhjä lista ~nil~. Voit päättää itse, mitä tällöin
-      tapahtuu.
-  - tehtävä 2.18
-  - tehtävä 2.20
-    - /Pariteetti/ (/parity/) tarkoittaa sitä, että luku on joko
-      parillinen tai pariton.
-    - Schemen proseduurit ~even?~ ja ~odd?~ testaavat parillisuuden ja
-      parittomuuden.
-    - Tehtävän voi ratkaista erittäin monella tavalla, kenties
-      lyhyimmin käyttämällä Schemen valmista proseduuria ~filter~.
+    - Kun törmäät tekstiä lukiessasi seuraaviin tehtäviin, tee ne.
+      - tehtävä 2.17
+        - Tehtävässä ei kerrota, mitä proseduurin pitäisi tehdä, jos sille
+          annetaan tyhjä lista ~nil~. Voit päättää itse, mitä tällöin
+          tapahtuu.
+      - tehtävä 2.18
+      - tehtävä 2.20
+        - /Pariteetti/ (/parity/) tarkoittaa sitä, että luku on joko
+          parillinen tai pariton. Kahdella luvulla on sama pariteetti,
+          jos molemmat ovat parillisia tai molemmat ovat parittomia.
+        - Schemen proseduurit ~even?~ ja ~odd?~ testaavat parillisuuden ja
+          parittomuuden.
+        - Tehtävän voi ratkaista erittäin monella tavalla, kenties
+          lyhyimmin käyttämällä Schemen valmista proseduuria ~filter~.
+        - tehtävä 2.21
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -75,3 +78,30 @@
 
    #+RESULTS[6d772f33e43a31db3e68643c769f069556d6b1bd]:
    | 1 | 3 |
+* Tehtävä 2.21
+** Ratkaisu
+*** Ensimmäinen 
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (require sicp)
+      (define (square x) (* x x))
+
+      (define (square-list items)
+        (if (null? items)
+            nil
+            (cons (square (car items)) (square-list (cdr items)))))
+
+      (square-list (list 1 2 3 4))
+    #+END_SRC
+
+    #+RESULTS[67add2614406fd5aaf9046cf3fb7a13f195e3eaf]:
+    | 1 | 4 | 9 | 16 |
+*** Toinen
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (square x) (* x x))
+
+      (define (square-list items)
+        (map square items))
+
+      (square-list (list 1 2 3 4))
+    #+END_SRC
+    
