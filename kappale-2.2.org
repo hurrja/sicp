@@ -73,4 +73,5 @@
      (same-parity 1 2 3 4)
    #+END_SRC
 
-   #+RESULTS[4c56d4860c84f801d867cc8c97ca23ff5c67eee9]:
+   #+RESULTS[6d772f33e43a31db3e68643c769f069556d6b1bd]:
+   | 1 | 3 |
