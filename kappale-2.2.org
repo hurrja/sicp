@@ -24,6 +24,8 @@
       #+BEGIN_SRC scheme :exports code
         (list 1 3 (list 5 7) 9)      
       #+END_SRC
+  - tehtävä 2.26 (tarkista tulkilla)
+  - tehtävä 2.27
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -160,3 +162,26 @@
 
    #+RESULTS[85a9b591db3f2f19079a479801230788c8b1e3fb]:
    : 7
+* Tehtävä 2.27
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :results value verbatim :cache yes
+     (require sicp)
+     (define (deep-reverse lst)
+       (define (deep-iter lst result)
+         (if (null? lst)
+             result
+             (let ((first (car lst)) (rest (cdr lst)))
+               (deep-iter rest
+                          (cons (if
+                                 (pair? first)
+                                 (deep-reverse first)
+                                 first)
+                                result)))))
+       (deep-iter lst nil))
+
+     (deep-reverse (list (list 1 2 3 4) (list (list 5 6) 7 8)))
+   #+END_SRC
+
+   #+RESULTS[e2c8c00e7f6e6af720fad302f8d17450bdf4220c]:
+   | 8 | 7 | (6 5) |   |
+   | 4 | 3 |     2 | 1 |
