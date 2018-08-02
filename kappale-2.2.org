@@ -18,15 +18,17 @@
           lyhyimmin käyttämällä Schemen valmista proseduuria ~filter~.
         - tehtävä 2.21
   - kappale 2.2.2
-  - tehtävä 2.24
-  - tehtävä 2.25
-    - Huomaa, esimerkiksi ensimmäisen listan Scheme-lauseke on 
-      #+BEGIN_SRC scheme :exports code
-        (list 1 3 (list 5 7) 9)      
-      #+END_SRC
-  - tehtävä 2.26 (tarkista tulkilla)
-  - tehtävä 2.27
-  - \star tehtävä 2.28
+    - Kun törmäät tekstiä lukiessasi seuraaviin tehtäviin, tee ne.
+      - tehtävä 2.24
+      - tehtävä 2.25
+        - Huomaa, esimerkiksi ensimmäisen listan Scheme-lauseke on 
+          #+BEGIN_SRC scheme :exports code
+            (list 1 3 (list 5 7) 9)      
+          #+END_SRC
+      - tehtävä 2.26 (tarkista tulkilla)
+      - tehtävä 2.27
+      - \star tehtävä 2.28
+      - tehtävä 2.30
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -203,6 +205,44 @@
        (list (fringe x) (fringe (list x x))))
    #+END_SRC
 
-   #+RESULTS[435f7d74d5ae6a7db54848a37be8e282a46484ea]:
+   #+RESULTS[3d7f2b6b843eafd91ed2f7025353d89f7b69fa99]:
    | 1 | 2 | 3 | 4 |   |   |   |   |
    | 1 | 2 | 3 | 4 | 1 | 2 | 3 | 4 |
+* Tehtävä 2.30
+** Ratkaisu
+*** Ilman proseduuria ~map~
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (require sicp)
+      (define (square x) (* x x))
+
+      (define (square-tree tree)
+        (cond ((null? tree) nil)
+              ((not (pair? tree)) (square tree))
+              (else (cons (square-tree (car tree))
+                          (square-tree (cdr tree))))))
+
+      (square-tree
+       (list 1
+             (list 2 (list 3 4) 5)
+             (list 6 7)))
+    #+END_SRC
+
+    #+RESULTS[6b376c4c4236b5a64dca90784b01929761de5521]:
+    | 1 | (4 (9 16) 25) | (36 49) |
+*** Ja käytössä ~map~
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (square x) (* x x))
+
+      (define (square-tree tree)
+        (if (not (pair? tree))
+            (square tree)
+            (map square-tree tree)))
+
+      (square-tree
+       (list 1
+             (list 2 (list 3 4) 5)
+             (list 6 7)))
+    #+END_SRC
+
+    #+RESULTS[e9d63bf3c485e8d69645033340cbfcc55d9f4791]:
+    | 1 | (4 (9 16) 25) | (36 49) |
