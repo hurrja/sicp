@@ -1,0 +1,23 @@
+* Ohje
+  - tähän huomautus, että ~nil~ löytyy paketista ~sicp~
+  - kappaleen 2.2 alku sekä kappale 2.2.1
+  - tehtävä 2.17
+    - Tehtävässä ei kerrota, mitä proseduurin pitäisi tehdä, jos sille
+      annetaan tyhjä lista ~nil~. Voit päättää itse, mitä tällöin
+      tapahtuu.
+* Tehtävä 2.17
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (require sicp)
+     (define (last-pair lst)
+       (define (last-pair-iter elem lst)
+         (if (null? lst)
+             (list elem)
+             (last-pair-iter (car lst) (cdr lst))))
+       (last-pair-iter nil lst))
+
+     (last-pair (list 1 2 3))
+   #+END_SRC
+
+   #+RESULTS[4231ce9fec6233ec6762fc3d008b37eceb5e6520]:
+   | 3 |
