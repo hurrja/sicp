@@ -7,6 +7,10 @@
       tapahtuu.
   - tehtävä 2.18
   - tehtävä 2.20
+    - /Pariteetti/ (/parity/) tarkoittaa sitä, että luku on joko
+      parillinen tai pariton.
+    - Schemen proseduurit ~even?~ ja ~odd?~ testaavat parillisuuden ja
+      parittomuuden.
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -42,20 +46,20 @@
 * Tehtävä 2.20
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
-          (require sicp)
-          (define (same-parity x . rest)
-            (define (filter-parity lst test)
-              (if (null? lst) 
-                  nil
-                  (let ((first (car lst)) (rest (cdr lst)))
-                    (if (test first)
-                        (cons first (filter-parity rest test))
-                        (filter-parity rest test)))))
-            (let ((test (if (even? x) even? (lambda (x) (not (even? x))))))
-              (cons x (filter-parity rest test))))
+     (require sicp)
+     (define (same-parity x . rest)
+       (define (filter-parity lst test) ;; listan elementit tarkistetaan funktiolla test
+         (if (null? lst) 
+             nil
+             (let ((first (car lst)) (rest (cdr lst)))
+               (if (test first)
+                   (cons first (filter-parity rest test))
+                   (filter-parity rest test)))))
+       (cons x (filter-parity rest (if (even? x) even? odd?))))
 
 
-          (same-parity 1 2 3 4)
+     (same-parity 1 2 3 4)
    #+END_SRC
 
-   #+RESULTS[685b2b17b4e4f313426c84832c4431272e5d4b46]:
+   #+RESULTS[b0f650dbda16e9381f330866268a89e322cae10e]:
+   | 1 | 3 |
