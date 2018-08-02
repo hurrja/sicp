@@ -5,6 +5,7 @@
     - Tehtävässä ei kerrota, mitä proseduurin pitäisi tehdä, jos sille
       annetaan tyhjä lista ~nil~. Voit päättää itse, mitä tällöin
       tapahtuu.
+  - tehtävä 2.18
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -21,3 +22,19 @@
 
    #+RESULTS[4231ce9fec6233ec6762fc3d008b37eceb5e6520]:
    | 3 |
+* Tehtävä 2.18
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (require sicp)
+     (define (reverse lst)
+       (define (reverse-iter lst result)
+         (if (null? lst)
+             result
+             (reverse-iter (cdr lst) (cons (car lst) result))))
+       (reverse-iter lst nil))
+
+     (reverse (list 1 2 3 4))
+   #+END_SRC
+
+   #+RESULTS[06328e05b639be483c1b7f72c30f88619570b9c3]:
+   | 4 | 3 | 2 | 1 |
