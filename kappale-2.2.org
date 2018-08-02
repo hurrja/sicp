@@ -11,6 +11,8 @@
       parillinen tai pariton.
     - Schemen proseduurit ~even?~ ja ~odd?~ testaavat parillisuuden ja
       parittomuuden.
+    - Tehtävän voi ratkaista erittäin monella tavalla, kenties
+      lyhyimmin käyttämällä Schemen valmista proseduuria ~filter~.
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -63,3 +65,12 @@
 
    #+RESULTS[b0f650dbda16e9381f330866268a89e322cae10e]:
    | 1 | 3 |
+** Lyhyt ratkaisu käyttämällä valmista proseduuria ~filter~
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (define (same-parity x . rest)
+       (cons x (filter (if (even? x) even? odd?) rest)))
+
+     (same-parity 1 2 3 4)
+   #+END_SRC
+
+   #+RESULTS[4c56d4860c84f801d867cc8c97ca23ff5c67eee9]:
