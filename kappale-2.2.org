@@ -29,6 +29,7 @@
       - tehtävä 2.27
       - \star tehtävä 2.28
       - tehtävä 2.30
+      - tehtävä 2.31
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -246,3 +247,25 @@
 
     #+RESULTS[e9d63bf3c485e8d69645033340cbfcc55d9f4791]:
     | 1 | (4 (9 16) 25) | (36 49) |
+* Tehtävä 2.31
+** Ratkaisu
+    #+BEGIN_SRC scheme :exports both :cache yes
+      (define (square x) (* x x))
+
+      (define (tree-map proc tree)
+        (map (lambda (sub-tree)
+               (if (pair? sub-tree)
+                   (tree-map proc sub-tree)
+                   (proc sub-tree)))
+             tree))
+
+      (define (square-tree tree)
+        (tree-map square tree))
+
+      (square-tree
+       (list 1
+             (list 2 (list 3 4) 5)
+             (list 6 7)))
+    #+END_SRC
+
+    #+RESULTS[6fe56c53f509caeae0a6c53dab2a1f92f80f6b12]:
