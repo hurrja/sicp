@@ -1,3 +1,4 @@
+#+LATEX_HEADER: \usepackage{forest}
 * Ohje
   - tähän huomautus, että ~nil~ löytyy paketista ~sicp~
   - kappaleen 2.2 alku sekä kappale 2.2.1
@@ -16,6 +17,8 @@
         - Tehtävän voi ratkaista erittäin monella tavalla, kenties
           lyhyimmin käyttämällä Schemen valmista proseduuria ~filter~.
         - tehtävä 2.21
+  - kappale 2.2.2
+  - tehtävä 2.24
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -104,4 +107,18 @@
 
       (square-list (list 1 2 3 4))
     #+END_SRC
-    
+
+    #+RESULTS[4823807aacb803ae087357cd4834d1f31f2a4a67]:
+    | 1 | 4 | 9 | 16 |
+* Tehtävä 2.24
+** Ratkaisu
+   Tässä vain puu, muu onnistunee muutenkin.
+   #+BEGIN_CENTER
+   \begin{forest}
+   [(2 (3 4))
+    [2]
+    [(3 4)
+     [3]
+     [4]]]]
+   \end{forest}
+   #+END_CENTER
