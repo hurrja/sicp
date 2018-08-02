@@ -19,6 +19,11 @@
         - tehtävä 2.21
   - kappale 2.2.2
   - tehtävä 2.24
+  - tehtävä 2.25
+    - Huomaa, esimerkiksi ensimmäisen listan Scheme-lauseke on 
+      #+BEGIN_SRC scheme :exports code
+        (list 1 3 (list 5 7) 9)      
+      #+END_SRC
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes
@@ -122,3 +127,25 @@
      [4]]]]
    \end{forest}
    #+END_CENTER
+* Tehtävä 2.25
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (car (cdr (car (cdr (cdr (list 1 3 (list 5 7) 9))))))
+   #+END_SRC
+
+   #+RESULTS[6f5c1dad35b373d09a2815ed757e4f5cdb166c07]:
+   : 7
+
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (car (car (list (list 7))))
+   #+END_SRC
+
+   #+RESULTS[5d29cd3a020640fee775a10d6dcc3d93de8e328f]:
+   : 7
+
+   #+BEGIN_SRC scheme :exports both :cache yes
+     (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7))))))))))))))))))
+   #+END_SRC
+
+   #+RESULTS[85a9b591db3f2f19079a479801230788c8b1e3fb]:
+   : 7
