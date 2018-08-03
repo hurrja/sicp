@@ -30,6 +30,8 @@
       - \star tehtävä 2.28
       - tehtävä 2.30
       - tehtävä 2.31
+  - kappale 2.2.3
+  - tehtävä 2.33
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes :results verbatim
@@ -280,3 +282,33 @@
 
     #+RESULTS[5890d0fe81d7d16b4bc448834e8dd80e86adc8c8]:
     : (1 (4 (9 16) 25) (36 49))
+* Tehtävä 2.33
+** Ratkaisu
+   #+BEGIN_SRC scheme :exports both :cache yes :results verbatim
+     (define nil (list))
+     (define (accumulate op initial sequence)
+       (if (null? sequence)
+           initial
+           (op (car sequence)
+               (accumulate op 
+                           initial 
+                           (cdr sequence)))))
+
+     (define (map p sequence)
+       (accumulate (lambda (x y) (cons (p x) y)) 
+                   nil sequence))
+
+     (define (append seq1 seq2)
+       (accumulate cons seq2 seq1))
+
+     (define (length sequence)
+       (accumulate (lambda (x y) (+ y 1)) 0 sequence))
+
+     (let ((l (list 1 2 3 4)) (t (list 7 8 9 10)))
+       (list (map (lambda (x) (* x 2)) l)
+             (append l t)
+             (length t)))
+   #+END_SRC
+
+   #+RESULTS[975a5c59794a413b6cad5abf8bc14c38c7ebd1bc]:
+   : ((2 4 6 8) (1 2 3 4 7 8 9 10) 4)
