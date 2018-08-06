@@ -33,6 +33,9 @@
   - kappale 2.2.3
   - tehtävä 2.33
   - tehtävä 2.34
+  - tehtävä 2.35
+    - Tehtävässä saa käyttää proseduuria ~fringe~ (joka on siis sama
+      kuin proseduuri ~fringe~).
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes :results verbatim
@@ -339,3 +342,30 @@
 
    #+RESULTS[af391f349ae2ba9e8b7f0131438afdf29465c097]:
    : 79
+* Tehtävä 2.35
+** Ratkaisu
+   #+begin_src scheme :exports both :cache yes :results verbatim
+     (define nil (list))
+
+     (define (fringe lst)
+       (cond ((null? lst) nil)
+             ((not (pair? lst)) (list lst))
+             (else (append (fringe (car lst)) (fringe (cdr lst))))))
+
+     (define (accumulate op initial sequence)
+       (if (null? sequence)
+           initial
+           (op (car sequence)
+               (accumulate op 
+                           initial 
+                           (cdr sequence)))))
+
+     (define (count-leaves t)
+       (accumulate + 0 (map (lambda (x) 1) (fringe t))))
+
+     (let ((x (cons (list 1 2) (list 3 4))))
+       (count-leaves x))
+   #+end_src
+
+   #+RESULTS[fe615bcc0822644c25ba652f98da8442662605a9]:
+   : 4
