@@ -30,12 +30,13 @@
       - \star tehtävä 2.28
       - tehtävä 2.30
       - tehtävä 2.31
-  - kappale 2.2.3
-  - tehtävä 2.33
-  - tehtävä 2.34
-  - tehtävä 2.35
-    - Tehtävässä saa käyttää proseduuria ~fringe~ (joka on siis sama
-      kuin proseduuri ~fringe~).
+  - kappale 2.2.3 kohtaan \ldquo{}Nested Mappings\rdquo asti ja
+    seuraavat tehtävät:
+    - tehtävä 2.33
+    - tehtävä 2.34
+    - tehtävä 2.35
+      - Tehtävässä saa käyttää proseduuria ~fringe~ (joka on siis sama
+        kuin proseduuri ~enumerate-tree~).
 * Tehtävä 2.17
 ** Ratkaisu
    #+BEGIN_SRC scheme :exports both :cache yes :results verbatim
