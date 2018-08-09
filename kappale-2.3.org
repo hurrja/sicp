@@ -1,0 +1,30 @@
+* Ohje
+  - kappale 2.3.1
+  - tehtävä 2.53 (tarkista evaluoimalla)
+  - tehtävä 2.54
+  - tehtävä 2.55
+
+* Tehtävä 2.54
+** Ratkaisu
+   #+begin_src scheme :exports both :cache yes :results verbatim
+     (define (equal? a b)
+       (if (and (symbol? a) (symbol? b))
+           (eq? a b)
+           (and (equal? (car a) (car b)) (equal? (cdr a) (cdr b)))))
+
+     (list
+      (equal? '(this is a list) '(this is a list))
+      (equal? '(this is a list) '(this (is a) list)))
+   #+end_src
+
+   #+RESULTS[7b7830017b3bcd219f23d4375d6d6ddad618dc3c]:
+   : (#t #f)
+
+* Tehtävä 2.55
+** Ratkaisu
+   Lauseke on sama kuin
+   #+begin_src scheme :exports code
+   (car (quote (quote abracadabra)))
+   #+end_src
+   Ensimmäinen ~quote~ palauttaa arvon ~(quote abracadabra)~. Tämän
+   ~car~ on pelkästään ~quote~.
