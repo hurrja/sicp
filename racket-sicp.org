@@ -1,0 +1,7 @@
+Mikäli käytät racket-tulkkia, voit ottaa tämän kappaleen symbolin /
+symbolit käyttöön seuraavasti:
+  1. asenna paketti ~sicp~
+  2. kirjoita kunkin ratkaisun ensimmäiseksi riviksi
+     #+BEGIN_SRC scheme :exports code
+     (require sicp)
+     #+END_SRC
